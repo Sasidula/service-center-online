@@ -6,9 +6,18 @@ import {
     BellIcon,
     WrenchIcon
 } from "lucide-react"
+import ReminderPopup from '../components/popups/ReminderPopup';
+import BookingPopup from "../components/popups/BookingPopup.jsx";
+import VehiclePopup from "../components/popups/VehiclePopup.jsx";
 export function CustomerDashboard() {
+    const [isReminderPopupOpen, setIsReminderPopupOpen] = React.useState(false);
+    const [isBookingPopupOpen,setIsBookingPopupOpen] = React.useState(false);
+    const [isVehiclePopupOpen, setIsVehiclePopupOpen] = React.useState(false);
+    const [index, setIndex] = React.useState(0);
+
     // Mockup data - would come from API in real implementation
     const upcomingAppointment = {
+        index: 0,
         date: "2024-02-15",
         time: "10:00 AM",
         service: "Oil Change & Tire Rotation"
@@ -24,6 +33,12 @@ export function CustomerDashboard() {
             date: "2023-12-15",
             service: "Oil Change",
             status: "Completed",
+            cost: "$39.99"
+        },
+        {
+            date: "2023-12-15",
+            service: "Oil Change",
+            status: "Scheduled",
             cost: "$39.99"
         }
     ]
@@ -60,7 +75,11 @@ export function CustomerDashboard() {
                                     <WrenchIcon className="inline h-4 w-4 mr-2" />
                                     {upcomingAppointment.service}
                                 </p>
-                                <button className="mt-4 text-sm bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                                <button
+                                    className="mt-4 text-sm bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                                    onClickCapture={() => setIndex(upcomingAppointment.index)}
+                                    onClick={() => setIsBookingPopupOpen(true)}
+                                >
                                     Reschedule
                                 </button>
                             </div>
@@ -79,7 +98,11 @@ export function CustomerDashboard() {
                         <div>
                             <p className="text-gray-600">Toyota Camry 2019</p>
                             <p className="text-gray-600 mt-1">Mileage: 45,000</p>
-                            <button className="mt-4 text-sm bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200">
+                            <button
+                                className="mt-4 text-sm bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200"
+                                onClickCapture={() => setIndex(index)}
+                                onClick={() => setIsVehiclePopupOpen(true)}
+                            >
                                 Update Info
                             </button>
                         </div>
@@ -90,15 +113,25 @@ export function CustomerDashboard() {
                             <h2 className="text-lg font-semibold text-gray-900">Reminders</h2>
                             <BellIcon className="h-5 w-5 text-blue-600" />
                         </div>
-                        <div className="space-y-3">
+                        <div>
                             {reminders.map((reminder, index) => (
                                 <div key={index} className="flex items-center justify-between">
-                                    <span className="text-gray-600">{reminder.title}</span>
-                                    <span className="text-sm text-gray-500">
-                    Due: {reminder.dueDate}
-                  </span>
+                                    <span className="text-gray-600">
+                                        {reminder.title}
+                                    </span>
+                                    <span className="text-gray-500">
+                                        Due: {reminder.dueDate}
+                                    </span>
+                                    <span className="text-blue-600 cursor-pointer"> &#10134;</span>
                                 </div>
                             ))}
+                            <button
+                                className="mt-4 text-sm bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200"
+                                onClickCapture={() => setIndex(index)}
+                                onClick={() => setIsReminderPopupOpen(true)}
+                            >
+                                Add Reminder
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -110,16 +143,17 @@ export function CustomerDashboard() {
                         </h2>
                         <div className="overflow-x-auto">
                             <table className="min-w-full">
-                                <thead>
-                                <tr className="border-b">
-                                    <th className="text-left py-3 px-4 text-gray-600">Date</th>
-                                    <th className="text-left py-3 px-4 text-gray-600">
+                                <thead >
+                                <tr className=" border-b">
+                                    <th className=" text-left py-3 px-8 text-gray-600">Date</th>
+                                    <th className="text-left py-3 px-8 text-gray-600">
                                         Service
                                     </th>
-                                    <th className="text-left py-3 px-4 text-gray-600">
+                                    <th className="text-left py- px-8 text-gray-600">
                                         Status
                                     </th>
-                                    <th className="text-left py-3 px-4 text-gray-600">Cost</th>
+                                    <th className="text-left py-5 px-6 text-gray-600">Cost</th>
+                                    <th className="text-left py-3 px-8 text-gray-600">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -132,12 +166,30 @@ export function CustomerDashboard() {
                                             {service.service}
                                         </td>
                                         <td className="py-3 px-4">
-                        <span className="px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">
-                          {service.status}
-                        </span>
+                                            <span className="px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">
+                                              {service.status}
+                                            </span>
                                         </td>
                                         <td className="py-3 px-4 text-gray-600">
                                             {service.cost}
+                                        </td>
+                                        <td className="py-3 px-4">
+                                            {service.status == "Scheduled" ? (
+                                                <button
+                                                    className="px-8 py-2 text-sm bg-blue-400 hover:bg-black text-white rounded-full"
+                                                    onClickCapture={() => setIndex(index)}
+                                                    onClick={() => setIsBookingPopupOpen(true)}
+                                                >
+                                                    Edit
+                                                </button>
+
+                                            ) : (
+                                                <button
+                                                    className="px-8 py-2 text-sm bg-green-100 hover:bg-rose-100 rounded-full"
+                                                >
+                                                    Edit
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -147,6 +199,21 @@ export function CustomerDashboard() {
                     </div>
                 </div>
             </div>
+            <BookingPopup
+                isOpen={isBookingPopupOpen}
+                onClose={()=> setIsBookingPopupOpen(false)}
+                index={index}
+            />
+            <ReminderPopup
+                isOpen={isReminderPopupOpen}
+                onClose={() => setIsReminderPopupOpen(false)}
+                index={index}
+            />
+            <VehiclePopup
+                isOpen={isVehiclePopupOpen}
+                onClose={() => setIsVehiclePopupOpen(false)}
+                index={index}
+            />
         </main>
     )
 }

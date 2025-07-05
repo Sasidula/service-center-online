@@ -1,6 +1,13 @@
 import React from "react"
 import { CalendarIcon, UsersIcon, ClockIcon, MailWarningIcon } from "lucide-react"
+import BookingPopup from "../components/popups/BookingPopup.jsx";
+import NewBookigPopup from "../components/popups/NewBookigPopup.jsx";
+import CustomersPopup from "../components/popups/CustomersPopup.jsx";
 export function AdminDashboard() {
+    const [index, setIndex] = React.useState(0);
+    const [isBookingPopupOpen, setIsBookingPopupOpen] = React.useState(false)
+    const [isNewBookingPopupOpen, setIsNewBookingPopupOpen] = React.useState(false)
+    const [isCustomersPopupOpen, setIsCustomersPopupOpen] = React.useState(false)
     // Mockup data - would come from API in real implementation
     const todaysAppointments = [
         {
@@ -122,22 +129,35 @@ export function AdminDashboard() {
                                             {appointment.service}
                                         </td>
                                         <td className="py-3 px-4">
-                        <span
-                            className={`px-2 py-1 text-sm rounded-full ${
-                                appointment.status === "Completed"
-                                    ? "bg-green-100 text-green-800"
-                                    : appointment.status === "In Progress"
-                                        ? "bg-blue-100 text-blue-800"
-                                        : "bg-gray-100 text-gray-800"
-                            }`}
-                        >
-                          {appointment.status}
-                        </span>
+                                            <span
+                                                className={`px-2 py-1 text-sm rounded-full ${
+                                                    appointment.status === "Completed"
+                                                        ? "bg-green-100 text-green-800"
+                                                        : appointment.status === "In Progress"
+                                                            ? "bg-blue-100 text-blue-800"
+                                                            : "bg-gray-100 text-gray-800"
+                                                }`}
+                                            >
+                                              {appointment.status}
+                                            </span>
                                         </td>
                                         <td className="py-3 px-4">
-                                            <button className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-md hover:bg-blue-200">
-                                                Update
-                                            </button>
+                                            {appointment.status == "Scheduled" ? (
+                                                <button
+                                                    className="px-8 py-2 text-sm bg-blue-400 hover:bg-black text-white rounded-full"
+                                                    onClickCapture={() => setIndex(index)}
+                                                    onClick={() => setIsBookingPopupOpen(true)}
+                                                >
+                                                    Edit
+                                                </button>
+
+                                            ) : (
+                                                <button
+                                                    className="px-8 py-2 text-sm bg-green-100 hover:bg-rose-100 rounded-full"
+                                                >
+                                                    Edit
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -153,22 +173,38 @@ export function AdminDashboard() {
                             Quick Actions
                         </h2>
                         <div className="space-y-3">
-                            <button className="w-full text-left px-6 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100">
+                            <button
+                                className="w-full text-left px-6 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100"
+                                onClick={() => setIsNewBookingPopupOpen(true)}
+                            >
                                 <CalendarIcon className="inline h-4 w-4 mr-2" />
                                 Schedule New Appointment
                             </button>
-                            <button className="w-full text-left px-6 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100">
+                            <button
+                                className="w-full text-left px-6 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100"
+                                onClick={() => setIsCustomersPopupOpen(true)}
+                            >
                                 <UsersIcon className="inline h-4 w-4 mr-2" />
                                 View All Customers
-                            </button>
-                            <button className="w-full text-left px-6 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100">
-                                <MailWarningIcon className="inline h-4 w-4 mr-2" />
-                                View Service Alerts
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <CustomersPopup
+                isOpen={isCustomersPopupOpen}
+                onClose={() => setIsCustomersPopupOpen(false)}
+            />
+            <BookingPopup
+                isOpen={isBookingPopupOpen}
+                onClose={() => setIsBookingPopupOpen(false)}
+                index={index}
+            />
+            <NewBookigPopup
+                isOpen={isNewBookingPopupOpen}
+                onClose={() => setIsNewBookingPopupOpen(false)}
+            />
         </main>
+
     )
 }

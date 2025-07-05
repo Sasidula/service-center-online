@@ -5,9 +5,40 @@ import {
     CarIcon,
     UserIcon,
     PhoneIcon,
-    MessageSquareIcon
+    MessageSquareIcon, GaugeIcon, DropletIcon, WrenchIcon, BatteryChargingIcon, LockIcon, MailIcon
 } from "lucide-react"
 export function BookingForm() {
+
+    const services = [
+        {
+            id: 1,
+            name: "Oil Change",
+            description: "Regular oil changes to keep your engine running smoothly",
+            icon: <DropletIcon className="h-8 w-8 text-blue-600" />,
+            price: "$39.99"
+        },
+        {
+            id: 2,
+            name: "Diagnostics",
+            description: "Full computer diagnostics to identify any issues",
+            icon: <GaugeIcon className="h-8 w-8 text-blue-600" />,
+            price: "$89.99"
+        },
+        {
+            id: 3,
+            name: "Tire Rotation",
+            description: "Extend the life of your tires with regular rotation",
+            icon: <WrenchIcon className="h-8 w-8 text-blue-600" />,
+            price: "$29.99"
+        },
+        {
+            id: 4,
+            name: "Battery Service",
+            description: "Test and replace your battery if needed",
+            icon: <BatteryChargingIcon className="h-8 w-8 text-blue-600" />,
+            price: "$49.99"
+        }
+    ]
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -74,24 +105,6 @@ export function BookingForm() {
                                 <div>
                                     <label
                                         className="block text-gray-700 text-sm font-medium mb-2"
-                                        htmlFor="email"
-                                    >
-                                        Email Address
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="you@example.com"
-                                        required
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        className="block text-gray-700 text-sm font-medium mb-2"
                                         htmlFor="phone"
                                     >
                                         <PhoneIcon className="inline h-4 w-4 mr-1" /> Phone Number
@@ -107,20 +120,93 @@ export function BookingForm() {
                                         onChange={handleChange}
                                     />
                                 </div>
+                                <div className="md:col-span-2">
+                                    <label
+                                        className="block text-gray-700 text-sm font-medium mb-2"
+                                        htmlFor="email"
+                                    >
+                                        <MailIcon className="inline h-4 w-4 mr-1" /> Email Address
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="you@example.com"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        className="block text-gray-700 text-sm font-medium mb-2"
+                                        htmlFor="email"
+                                    >
+                                        <LockIcon className="inline h-4 w-4 mr-1" /> Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            id="password"
+                                            name="password"
+                                            type="password"
+                                            required
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Enter Password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        className="block text-gray-700 text-sm font-medium mb-2"
+                                        htmlFor="email"
+                                    >
+                                        <LockIcon className="inline h-4 w-4 mr-1" /> Confirm Password
+                                    </label>
+                                    <input
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        type="password"
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Confirm Password"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                    />
+                                </div>
                                 <div>
                                     <label
                                         className="block text-gray-700 text-sm font-medium mb-2"
                                         htmlFor="vehicle"
                                     >
-                                        <CarIcon className="inline h-4 w-4 mr-1" /> Vehicle
-                                        Make/Model
+                                        <CarIcon className="inline h-4 w-4 mr-1" /> Vehicle Model
                                     </label>
                                     <input
                                         type="text"
-                                        id="vehicle"
-                                        name="vehicle"
+                                        id="vehicleName"
+                                        name="vehicleName"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder="Toyota Camry 2019"
+                                        required
+                                        value={formData.vehicle}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        className="block text-gray-700 text-sm font-medium mb-2"
+                                        htmlFor="vehicle"
+                                    >
+                                        <CarIcon className="inline h-4 w-4 mr-1" /> Vehicle Year
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="vehicleYear"
+                                        name="vehicleYear"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="2019"
                                         required
                                         value={formData.vehicle}
                                         onChange={handleChange}
@@ -164,6 +250,30 @@ export function BookingForm() {
                                         {timeSlots.map((slot, index) => (
                                             <option key={index} value={slot}>
                                                 {slot}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label
+                                        className="block text-gray-700 text-sm font-medium mb-2"
+                                        htmlFor="service"
+                                    >
+                                        <GaugeIcon className="inline h-4 w-4 mr-1" /> Service
+                                        Requested
+                                    </label>
+                                    <select
+                                        id="service"
+                                        name="service"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                        value={formData.service}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">Select a service</option>
+                                        {services.map((service) => (
+                                            <option key={service.id} value={service.name}>
+                                                {service.name}
                                             </option>
                                         ))}
                                     </select>

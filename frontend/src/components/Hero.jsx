@@ -2,7 +2,7 @@ import React from "react"
 import { CalendarIcon } from "lucide-react"
 export function Hero() {
     return (
-        <div className="bg-blue-700 text-white">
+        <div id ="hero" className="bg-blue-700 text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="md:w-1/2">
@@ -13,10 +13,12 @@ export function Hero() {
                             Easy scheduling, expert service, and peace of mind for your
                             vehicle maintenance needs.
                         </p>
-                        <button className="bg-white text-blue-700 flex items-center px-6 py-3 rounded-md text-lg font-medium hover:bg-blue-50 transition-colors">
-                            <CalendarIcon className="h-5 w-5 mr-2" />
-                            Book Now
-                        </button>
+                        <a href="#booking">
+                            <button className="bg-white text-blue-700 flex items-center px-6 py-3 rounded-md text-lg font-medium hover:bg-blue-50 transition-colors">
+                                <CalendarIcon className="h-5 w-5 mr-2" />
+                                Book Now
+                            </button>
+                        </a>
                     </div>
                     <div className="mt-10 md:mt-0 md:w-1/2">
                         <img
